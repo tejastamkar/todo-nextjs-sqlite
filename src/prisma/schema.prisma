@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// users scheme 
+model User {
+  id       String  @id @default(uuid())
+  username String
+  email    String  @unique
+  password String
+  Todo     Todo[]
+}
+
+// to-do list scheme 
+model Todo {
+  id     String  @id @default(uuid())
+  title  String
+  desc   String
+  done   Boolean @default(false)
+  user   User    @relation(fields: [userId], references: [id])
+  userId String
+}
